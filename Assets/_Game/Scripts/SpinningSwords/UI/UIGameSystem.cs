@@ -9,6 +9,7 @@ namespace SpinningSwords.UI
     using SpinningSwords;
     using Unity.Burst;
     using Unity.Entities;
+    using UnityEngine;
 
     [UpdateInGroup(typeof(UISystemGroup))]
     public partial struct UIGameSystem : ISystem, ISystemStartStop
@@ -37,6 +38,10 @@ namespace SpinningSwords.UI
             if (this.helper.Binding.Quit.TryConsume())
             {
                 GameAPI.StateSet(ref state, "quit");
+            }
+            if (this.helper.Binding.Test.TryConsume())
+            {
+                Debug.Log("TEST");
             }
         }
 

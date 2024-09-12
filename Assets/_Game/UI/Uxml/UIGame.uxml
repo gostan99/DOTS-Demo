@@ -1,7 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <BovineLabs.Core.UI.BindableButton text="Return to Menu" name="Start" data-source-type="BovineLabs.Sample.Extension.UI.UIGameBinding, BovineLabs.Sample.Extension" style="width: 200px; height: 50px;">
+    <BovineLabs.Core.UI.BindableButton text="Return to Menu" name="Start" data-source-type="SpinningSwords.UI.UIGameBinding+Data, SpinningSwords" style="width: 200px; height: 50px;">
         <Bindings>
-            <ui:DataBinding property="wasClicked" data-source-path="Quit" binding-mode="ToSource" />
+            <ui:DataBinding property="wasClicked" data-source-path="Quit" binding-mode="ToSource" data-source-type="SpinningSwords.UI.UIGameBinding, SpinningSwords" />
+        </Bindings>
+    </BovineLabs.Core.UI.BindableButton>
+    <BovineLabs.Core.UI.BindableButton text="Test" name="Test" data-source-type="SpinningSwords.UI.UIGameBinding+Data, SpinningSwords" was-clicked="true" style="width: 200px; height: 50px;">
+        <Bindings>
+            <ui:DataBinding property="wasClicked" data-source-path="Test" binding-mode="ToSource" data-source-type="SpinningSwords.UI.UIGameBinding, SpinningSwords" />
         </Bindings>
     </BovineLabs.Core.UI.BindableButton>
 </ui:UXML>

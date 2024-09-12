@@ -20,9 +20,17 @@ namespace SpinningSwords.UI
             set => this.data.Quit.TryProduce(value);
         }
 
+        [CreateProperty]
+        public bool Test
+        {
+            get => this.data.Test.Value;
+            set => this.data.Test.TryProduce(value);
+        }
+
         public struct Data : IBindingObject
         {
             public ButtonEvent Quit;
+            public ButtonEvent Test;
         }
     }
 }
