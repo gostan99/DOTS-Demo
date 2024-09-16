@@ -17,7 +17,8 @@
         "Unity.Mathematics",
         "Unity.Mathematics.Extensions",
         "Unity.Physics",
-        "Unity.Transforms"
+        "Unity.Transforms",
+        "_GENERATED"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
