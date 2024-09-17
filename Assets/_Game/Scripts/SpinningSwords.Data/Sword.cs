@@ -34,6 +34,7 @@ namespace SpinningSwords.Data
         public int MaxSwordCount;
         public int SwordCount;
 
+        public bool StopPickupSwordCollision;
         public bool ReachMaxSwordCount => SwordCount >= MaxSwordCount;
 
         public void DefaultValue()

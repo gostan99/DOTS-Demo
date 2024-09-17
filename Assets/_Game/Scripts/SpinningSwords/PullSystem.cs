@@ -1,3 +1,4 @@
+﻿using BovineLabs.Core.LifeCycle;
 using SpinningSwords.Data;
 using Unity.Burst;
 using Unity.Collections;
@@ -68,4 +69,33 @@ namespace SpinningSwords
             }
         }
     }
+
+
+    [BurstCompile]
+    [UpdateInGroup(typeof(InitializeSystemGroup))]
+    public partial struct PullableInitSystem : ISystem
+    {
+        private EntityQuery query;
+        public void OnCreate(ref SystemState state)
+        {
+            query = SystemAPI.QueryBuilder().WithAll<InitializeEntity, Pullable, Prefab>().WithAllRW<PhysicsCollider>().Build();
+            state.RequireForUpdate(query);
+        }
+
+        [BurstCompile]
+        public unsafe void OnUpdate(ref SystemState state)
+        {
+            // set GroupIndex -1 để entity nào ban đầu collide được thì về sau có thể không muốn collide nữa thì chỉ cần entity đó cũng set GroupIndex -1
+            RefRW<PhysicsCollider> physicsCollider = query.GetSingletonRW<PhysicsCollider>();
+            ref Unity.Physics.Collider collider = ref physicsCollider.ValueRW.Value.Value;
+            ColliderKey colliderKey = new ColliderKey(collider.TotalNumColliderKeyBits, 0);
+            if (collider.GetChild(ref colliderKey, out ChildCollider child))
+            {
+                CollisionFilter colFilter = child.Collider->GetCollisionFilter();
+                colFilter.GroupIndex = -1;
+                child.Collider->SetCollisionFilter(colFilter);
+            }
+        }
+    }
+
 }
