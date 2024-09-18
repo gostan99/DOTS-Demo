@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7674904139434099076}
   - component: {fileID: -223565349048480272}
   - component: {fileID: -929444432147210846}
+  - component: {fileID: 3655656308495016697}
+  - component: {fileID: -1141671097478409605}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -296,3 +298,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EventDetails: 0
+--- !u!114 &3655656308495016697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7444470855714351455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10beffb8b0e0bb2418599a543986b2b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1141671097478409605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7444470855714351455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1839be73e81ae4c97132df4493e93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AddInitialize: 1
+  AddDestroy: 1

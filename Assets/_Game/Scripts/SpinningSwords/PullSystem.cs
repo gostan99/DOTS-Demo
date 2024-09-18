@@ -29,6 +29,7 @@ namespace SpinningSwords
 
         public void OnUpdate(ref SystemState state)
         {
+            state.CompleteDependency();
             NativeList<Entity> pullerEntities = pullerQuery.ToEntityListAsync(state.WorldUpdateAllocator, out JobHandle dep);
 
             PullJob pullJob = new PullJob

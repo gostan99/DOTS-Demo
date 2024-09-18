@@ -13,7 +13,6 @@ namespace SpinningSwords.Authoring
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
                 AddComponent<Sword>(entity);
-                AddComponent<SwordOrbitTarget>(entity);
             }
         }
     }

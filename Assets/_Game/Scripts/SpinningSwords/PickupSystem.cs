@@ -4,10 +4,13 @@ using SpinningSwords.Data;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Physics.Systems;
 
 namespace SpinningSwords
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateAfter(typeof(PhysicsSystemGroup))]
     public partial struct PickupSystem : ISystem
     {
         public void OnCreate(ref SystemState state)
@@ -43,8 +46,6 @@ namespace SpinningSwords
 
             public void Execute(Entity entity, DynamicBuffer<StatefulTriggerEvent> collisionEvents)
             {
-                if (collisionEvents.Length == 0) return;
-
                 for (int i = 0; i < collisionEvents.Length; i++)
                 {
                     StatefulTriggerEvent collisionEvent = collisionEvents[i];
@@ -55,7 +56,8 @@ namespace SpinningSwords
                             swordController.SwordCount++;
                             SwordControllerLookup[collisionEvent.EntityB] = swordController;
 
-                            Ecb.Instantiate(swordPrefab.Value);
+                            Entity newEntity = Ecb.Instantiate(swordPrefab.Value);
+                            Ecb.AddSharedComponent(newEntity, new SwordOrbitTarget { TargetParent = collisionEvent.EntityB, Target = swordController.OrbitTargetEntity });
 
                             DestroyEntityLookup.SetComponentEnabled(entity, true);
 

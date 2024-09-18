@@ -27,7 +27,6 @@ namespace SpinningSwords
 
     [BurstCompile]
     [UpdateInGroup(typeof(InitializeSystemGroup))]
-    [UpdateBefore(typeof(InitializeEntitySystem))]
     public partial struct PlayerInitSystem : ISystem
     {
         public void OnCreate(ref SystemState state)

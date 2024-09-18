@@ -7,6 +7,7 @@ using Unity.Physics;
 namespace SpinningSwords
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     public partial struct SwordPickupStopCollision : ISystem
     {
         public void OnCreate(ref SystemState state)
