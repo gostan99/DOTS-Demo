@@ -25,7 +25,6 @@ namespace SpinningSwords
 
         public void OnUpdate(ref SystemState state)
         {
-
             SwordOrbitJob swordOrbitJob = new SwordOrbitJob
             {
                 DeltaTime = SystemAPI.Time.DeltaTime,
@@ -37,6 +36,11 @@ namespace SpinningSwords
             };
 
             state.Dependency = swordOrbitJob.ScheduleParallel(state.Dependency);
+        }
+
+        public partial struct SwordEquidistantJob : IJobEntity
+        {
+            public void Execute() { }
         }
 
         public partial struct SwordOrbitJob : IJobEntity
@@ -93,6 +97,73 @@ namespace SpinningSwords
             }
 
             private quaternion CalculateRotation(float3 targetUp, float3 planarForward)
+            {
+                quaternion pitchRotation = quaternion.Euler(math.right() * math.radians(0));
+                quaternion rotation = MathUtilities.CreateRotationWithUpPriority(targetUp, planarForward);
+                rotation = math.mul(rotation, pitchRotation);
+                return rotation;
+            }
+        }
+    }
+
+
+
+    [BurstCompile]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateAfter(typeof(TransformSystemGroup))]
+    public partial struct SwordSmoothSystem : ISystem
+    {
+        public void OnCreate(ref SystemState state)
+        {
+        }
+
+        public void OnDestroy(ref SystemState state)
+        {
+        }
+
+        public void OnUpdate(ref SystemState state)
+        {
+            SwordSmoothOrbitJob swordOrbitJob = new SwordSmoothOrbitJob
+            {
+                DeltaTime = SystemAPI.Time.DeltaTime,
+                LocalToWorldLookup = SystemAPI.GetComponentLookup<LocalToWorld>(false),
+                SwordControllerLookup = SystemAPI.GetComponentLookup<SwordController>(true),
+                KinematicCharacterBodyLookup = SystemAPI.GetComponentLookup<KinematicCharacterBody>(true),
+            };
+
+            state.Dependency = swordOrbitJob.ScheduleParallel(state.Dependency);
+        }
+
+        public partial struct SwordEquidistantJob : IJobEntity
+        {
+            public void Execute() { }
+        }
+
+        public partial struct SwordSmoothOrbitJob : IJobEntity
+        {
+            public float DeltaTime;
+
+            [NativeDisableParallelForRestriction]
+            public ComponentLookup<LocalToWorld> LocalToWorldLookup;
+
+            [ReadOnly] public ComponentLookup<SwordController> SwordControllerLookup;
+            [ReadOnly] public ComponentLookup<KinematicCharacterBody> KinematicCharacterBodyLookup;
+
+            private void Execute(Entity entity, in Sword sword, in SwordOrbitTarget orbitTarget, in LocalTransform localTransform)
+            {
+                LocalToWorld targetWorldTransform = LocalToWorldLookup[orbitTarget.Target];
+                quaternion swordRotation = CalculateRotation(targetWorldTransform.Up, sword.PlanarForward);
+                SwordController swordController = SwordControllerLookup[orbitTarget.TargetParent];
+                float3 targetPosition = targetWorldTransform.Position;
+
+                // Place Sword at the final distance (includes smoothing)
+                float3 swordPosition = targetPosition + (-MathUtilities.GetForwardFromRotation(swordRotation) * swordController.OrbitDistance);
+
+                // Write to LtW
+                LocalToWorldLookup[entity] = new LocalToWorld { Value = float4x4.TRS(swordPosition, swordRotation, localTransform.Scale) };
+            }
+
+            private readonly quaternion CalculateRotation(float3 targetUp, float3 planarForward)
             {
                 quaternion pitchRotation = quaternion.Euler(math.right() * math.radians(0));
                 quaternion rotation = MathUtilities.CreateRotationWithUpPriority(targetUp, planarForward);
