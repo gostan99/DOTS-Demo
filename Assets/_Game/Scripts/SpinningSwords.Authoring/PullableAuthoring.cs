@@ -11,7 +11,7 @@ namespace SpinningSwords.Authoring
             public override void Bake(PullableAuthoring authoring)
             {
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-                AddComponent<Pullable>(entity);
+                AddComponent<PullableTag>(entity);
             }
         }
     }

@@ -13,6 +13,9 @@ namespace SpinningSwords.Authoring
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
                 AddComponent<Sword>(entity);
+
+                AddComponent<SwordEquidistantFinish>(entity);
+                SetComponentEnabled<SwordEquidistantFinish>(entity, false);
             }
         }
     }

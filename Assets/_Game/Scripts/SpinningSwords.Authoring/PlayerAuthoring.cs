@@ -20,7 +20,6 @@ namespace SpinningSwords.Authoring
 
         [Header("Sword Equidistant")]
         public float SwordEquidistantDuration;
-        public float DurationAfterReinitializedMultiplier;
 
         public class Baker : Baker<PlayerAuthoring>
         {
@@ -39,9 +38,9 @@ namespace SpinningSwords.Authoring
                 AddComponent(entity, new SwordController
                 {
                     OrbitTargetEntity = GetEntity(authoring.OrbitTarget, TransformUsageFlags.Dynamic),
-                    InitialOrbitSpeed = authoring.InitialOrbitSpeed,
+                    OrbitSpeed = authoring.InitialOrbitSpeed,
                     OrbitDistance = authoring.OrbitDistance,
-                    MaxOrbitSpeed = authoring.MaxOrbitSpeed,
+                    OrbitMaxSpeed = authoring.MaxOrbitSpeed,
                     MaxWeight = authoring.MaxWeight,
                     MaxSwordCount = authoring.MaxSwordCount,
                     SwordCount = 0,
@@ -51,8 +50,10 @@ namespace SpinningSwords.Authoring
                 AddComponent(entity, new SwordEquidistant
                 {
                     Duration = authoring.SwordEquidistantDuration,
-                    DurationAfterReinitializedMultiplier = authoring.DurationAfterReinitializedMultiplier,
                 });
+                SetComponentEnabled<SwordEquidistant>(entity, false);
+
+                AddBuffer<SwordBuffer>(entity);
             }
         }
     }

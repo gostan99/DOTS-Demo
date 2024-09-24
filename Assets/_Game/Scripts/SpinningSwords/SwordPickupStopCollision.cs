@@ -21,16 +21,14 @@ namespace SpinningSwords
 
         public void OnUpdate(ref SystemState state)
         {
-            StopCollisionJob stopCollisionJob = new StopCollisionJob
-            {
-            };
+            StopCollisionJob stopCollisionJob = new StopCollisionJob { };
 
             stopCollisionJob.ScheduleParallel();
         }
 
         public partial struct StopCollisionJob : IJobEntity
         {
-            public void Execute(ref SwordController swordController, ref PhysicsCollider physicsCollider)
+            public void Execute(Entity entity, ref SwordController swordController, ref PhysicsCollider physicsCollider)
             {
                 if (!swordController.StopPickupSwordCollision && swordController.ReachMaxSwordCount)
                 {
@@ -39,6 +37,15 @@ namespace SpinningSwords
                     ref Unity.Physics.Collider collider = ref physicsCollider.Value.Value;
                     CollisionFilter colFilter = collider.GetCollisionFilter();
                     colFilter.GroupIndex = -1;
+                    collider.SetCollisionFilter(colFilter);
+                }
+                else if (swordController.StopPickupSwordCollision && !swordController.ReachMaxSwordCount)
+                {
+                    swordController.StopPickupSwordCollision = false;
+
+                    ref Unity.Physics.Collider collider = ref physicsCollider.Value.Value;
+                    CollisionFilter colFilter = collider.GetCollisionFilter();
+                    colFilter.GroupIndex = 0;
                     collider.SetCollisionFilter(colFilter);
                 }
             }

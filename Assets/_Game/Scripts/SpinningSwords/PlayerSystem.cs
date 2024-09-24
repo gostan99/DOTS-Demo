@@ -4,6 +4,7 @@ using SpinningSwords.Data;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Physics;
+using Unity.Physics.Extensions;
 using Collider = Unity.Physics.Collider;
 
 namespace SpinningSwords
@@ -39,9 +40,13 @@ namespace SpinningSwords
 
         public void OnUpdate(ref SystemState state)
         {
+            EntityCommandBuffer ecb = new EntityCommandBuffer(state.WorldUpdateAllocator);
             foreach ((RefRO<SwordPrefab> swordPrefab, RefRW<SwordColliders> swordCollider, Entity entity)
                 in SystemAPI.Query<RefRO<SwordPrefab>, RefRW<SwordColliders>>().WithAll<PlayerTag>().WithAny<InitializeSubSceneEntity, InitializeEntity>().WithEntityAccess()) // mặc dù là sẽ chỉ có 1 player thôi
             {
+                //todo: Delete this after done with multi PlayerTag testing 
+                SystemAPI.GetComponentRW<PhysicsCollider>(entity).ValueRW.MakeUnique(entity, ecb);
+
                 #region Set SwordColliders
 
                 PhysicsCollider swordPrefabCollider = SystemAPI.GetComponent<PhysicsCollider>(swordPrefab.ValueRO.Value);

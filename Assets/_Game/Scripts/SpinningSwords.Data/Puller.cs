@@ -10,5 +10,5 @@ namespace SpinningSwords.Data
         public float Strength;
     }
 
-    public struct Pullable : IComponentData { }
+    public struct PullableTag : IComponentData { }
 }

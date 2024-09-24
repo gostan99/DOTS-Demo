@@ -13,7 +13,6 @@ namespace SpinningSwords.Data
     {
         public float3 PlanarForward;
         public float OrbitSpeed;
-        public float InitialOrbitSpeed;
     }
 
     [ChunkSerializable]
@@ -26,9 +25,9 @@ namespace SpinningSwords.Data
     public struct SwordController : IComponentData
     {
         public Entity OrbitTargetEntity;
-        public float InitialOrbitSpeed;
         public float OrbitDistance;
-        public float MaxOrbitSpeed;
+        public float OrbitSpeed;
+        public float OrbitMaxSpeed;
         public float Weight;
         public float MaxWeight;
         public int MaxSwordCount;
@@ -40,9 +39,9 @@ namespace SpinningSwords.Data
         public void DefaultValue()
         {
             OrbitTargetEntity = Entity.Null;
-            InitialOrbitSpeed = 125;
             OrbitDistance = 1.75f;
-            MaxOrbitSpeed = 500;
+            OrbitSpeed = 125;
+            OrbitMaxSpeed = 500;
             MaxWeight = 50;
             MaxSwordCount = 50;
             SwordCount = 0;
@@ -53,16 +52,17 @@ namespace SpinningSwords.Data
     public struct SwordEquidistant : IComponentData, IEnableableComponent
     {
         public float Duration;
-        public float DurationAfterReinitializedMultiplier;
-        public double FinishTime;
-        public bool SwordSpeedIsCalculated;
-        public bool NeedReinitializeOrbitSwords;
 
         public void DefaultValue()
         {
             Duration = 1.45f;
-            DurationAfterReinitializedMultiplier = 1.68f;
         }
+    }
+
+    public struct SwordEquidistantFinish : IComponentData, IEnableableComponent
+    {
+        public double FinishTime;
+        public float FinishSpeed;
     }
 
     public struct SwordColliders : IComponentData
@@ -73,5 +73,11 @@ namespace SpinningSwords.Data
 
     public struct PickupSword : IComponentData
     {
+    }
+
+    [InternalBufferCapacity(50)]
+    public struct SwordBuffer : IBufferElementData
+    {
+        public Entity Value;
     }
 }

@@ -24,7 +24,7 @@ namespace SpinningSwords
             pullerQuery = SystemAPI.QueryBuilder().WithAll<LocalToWorld, Puller>().Build();
 
             state.RequireForUpdate<Puller>();
-            state.RequireForUpdate<Pullable>();
+            state.RequireForUpdate<PullableTag>();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -42,7 +42,7 @@ namespace SpinningSwords
             state.Dependency = pullJob.ScheduleParallel(dep);
         }
 
-        [WithAll(typeof(Pullable))]
+        [WithAll(typeof(PullableTag))]
         public partial struct PullJob : IJobEntity
         {
             [ReadOnly]
@@ -79,7 +79,7 @@ namespace SpinningSwords
         private EntityQuery query;
         public void OnCreate(ref SystemState state)
         {
-            query = SystemAPI.QueryBuilder().WithAll<InitializeEntity, Pullable, Prefab>().WithAllRW<PhysicsCollider>().Build();
+            query = SystemAPI.QueryBuilder().WithAll<InitializeEntity, PullableTag, Prefab>().WithAllRW<PhysicsCollider>().Build();
             state.RequireForUpdate(query);
         }
 
