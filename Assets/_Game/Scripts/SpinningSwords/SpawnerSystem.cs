@@ -86,8 +86,7 @@ namespace SpinningSwords
             for (int i = 0; i < count; i++)
             {
                 quaternion rotation = quaternion.Euler(0, random.NextFloat(0, 360), 0); // random Y-axis rotation;
-                // TODO: thay đổi giá trị 0.5f của y
-                float3 position = new float3(random.NextFloat(minRadius, maxRadius), 0.5f, random.NextFloat(minRadius, maxRadius));
+                float3 position = new float3(random.NextFloat(minRadius, maxRadius), 0, random.NextFloat(minRadius, maxRadius));
                 position = center + math.mul(rotation, position);
                 positions[i] = position;
                 rotations[i] = rotation;

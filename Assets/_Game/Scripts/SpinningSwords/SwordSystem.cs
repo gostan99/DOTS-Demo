@@ -280,17 +280,21 @@ namespace SpinningSwords
                         float3 forceDirection = math.cross(otherSword.PlanarForward, math.up());
                         velocity.Linear = forceDirection * force;
 
+                        // tắt chế độ kinematic
                         physicsGravityFactor.Value = 1;
                         mass = PhysicsMass.CreateDynamic(collider.MassProperties, 1);
 
+                        // bật collider khi ở trạng thái detached
                         SwordColliders swordColliders = SwordCollidersLookup[orbitTarget.TargetParent];
                         collider.Value = swordColliders.DetachedCollider;
 
+                        // xử lý buffer và kích hoạt hệ thống sắp xếp sword quay đều
                         DynamicBuffer<SwordBuffer> swordBuffer = SwordBufferLookup[orbitTarget.TargetParent];
                         int swordIndex = swordBuffer.IndexOf(new SwordBuffer { Value = entity });
                         swordBuffer.RemoveAt(swordIndex);
                         SwordEquidistantLookup.SetComponentEnabled(orbitTarget.TargetParent, true);
 
+                        // sword đã detached sẽ không có orbit target
                         Ecb.RemoveComponent<SwordOrbitTarget>(sortKey, entity);
                     }
                     return; // chỉ xử lý va chạm cho 1 sword trong 1 frame
