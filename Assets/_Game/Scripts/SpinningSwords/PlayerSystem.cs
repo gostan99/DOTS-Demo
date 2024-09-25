@@ -49,15 +49,15 @@ namespace SpinningSwords
 
                 BlobAssetReference<Collider> orbitCollider = swordPrefabCollider.Value.Value.Clone();
                 CollisionFilter orbitColFilter = orbitCollider.Value.GetCollisionFilter();
-                orbitColFilter.BelongsTo = 0u | (PhysicsCategory.Sword);
-                orbitColFilter.CollidesWith = 0u | (PhysicsCategory.Sword | PhysicsCategory.Fake_Player | PhysicsCategory.Bot);
+                orbitColFilter.BelongsTo = 0u | (PhysicsCategory.Player);
+                orbitColFilter.CollidesWith = 0u | (PhysicsCategory.Fake_Player | PhysicsCategory.Bot);
                 orbitColFilter.GroupIndex = -entity.Index;
                 orbitCollider.Value.SetCollisionFilter(orbitColFilter);
                 swordCollider.ValueRW.OrbitCollider = orbitCollider;
 
                 BlobAssetReference<Collider> detachedCollider = swordPrefabCollider.Value.Value.Clone();
                 CollisionFilter detachedColFilter = detachedCollider.Value.GetCollisionFilter();
-                detachedColFilter.BelongsTo = 0u | (PhysicsCategory.Sword | PhysicsCategory.Player);
+                detachedColFilter.BelongsTo = 0u | PhysicsCategory.Sword;
                 detachedColFilter.CollidesWith = 0u | PhysicsCategory.Ground;
                 detachedCollider.Value.SetCollisionFilter(detachedColFilter);
                 swordCollider.ValueRW.DetachedCollider = detachedCollider;

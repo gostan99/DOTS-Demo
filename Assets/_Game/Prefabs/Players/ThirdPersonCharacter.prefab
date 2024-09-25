@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 2606443041019695440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -504,7 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puller:
     Range: 5
-    Strength: 125
+    Strength: 321
   SwordPrefab: {fileID: 7444470855714351455, guid: d4be7abac5ce19642a400b30b70b6787, type: 3}
   OrbitTarget: {fileID: 2606443041019695440}
   InitialOrbitSpeed: 125
@@ -512,8 +512,7 @@ MonoBehaviour:
   MaxOrbitSpeed: 500
   MaxWeight: 50
   MaxSwordCount: 50
-  SwordEquidistantDuration: 1.54
-  DurationAfterReinitializedMultiplier: 1.5
+  SwordEquidistantDuration: 3
 --- !u!114 &8193650319469799845
 MonoBehaviour:
   m_ObjectHideFlags: 0

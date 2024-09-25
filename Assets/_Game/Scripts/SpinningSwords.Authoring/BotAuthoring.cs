@@ -6,6 +6,13 @@ namespace SpinningSwords.Authoring
 {
     public class BotAuthoring : MonoBehaviour
     {
+        public float TargetReachDistance;
+
+        public BotInitialSwordCount InitialSwordCount;
+
+        [Header("Bot Find New Target")]
+        public float BotFindNewTargetInterval;
+
         [Header("Sword Controller")]
         public GameObject SwordPrefab;
         public GameObject OrbitTarget;
@@ -26,9 +33,15 @@ namespace SpinningSwords.Authoring
 
                 AddComponent<BotTag>(entity);
 
+                AddComponent(entity, new BotTarget { TargetReachDstSq = authoring.TargetReachDistance * authoring.TargetReachDistance });
+
+                AddComponent(entity, new BotFindNewTarget { Interval = authoring.BotFindNewTargetInterval });
+
                 AddComponent(entity, new SwordPrefab { Value = GetEntity(authoring.SwordPrefab, TransformUsageFlags.Dynamic) });
 
                 AddComponent<SwordColliders>(entity);
+
+                AddComponent(entity, authoring.InitialSwordCount);
 
                 AddComponent(entity, new SwordController
                 {

@@ -1,11 +1,7 @@
 {
-    "name": "SpinningSwords",
+    "name": "Samples",
     "rootNamespace": "",
     "references": [
-        "BovineLabs.Core",
-        "BovineLabs.Core.Extensions",
-        "BovineLabs.Core.UI",
-        "SpinningSwords.Data",
         "Unity.Burst",
         "Unity.Collections",
         "Unity.Entities",
@@ -17,9 +13,8 @@
         "Unity.Mathematics.Extensions",
         "Unity.Physics",
         "Unity.Transforms",
-        "_GENERATED",
         "Unity.CharacterController",
-        "Samples"
+        "Unity.Physics.Custom"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
