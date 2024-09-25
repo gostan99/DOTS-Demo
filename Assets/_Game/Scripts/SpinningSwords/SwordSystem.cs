@@ -3,7 +3,7 @@ using BovineLabs.Core.Iterators;
 using BovineLabs.Core.LifeCycle;
 using BovineLabs.Core.PhysicsStates;
 using SpinningSwords.Data;
-using SpinningSwords.Extensions;
+using SpinningSwords.Utils.Extensions;
 using Unity.Burst;
 using Unity.CharacterController;
 using Unity.Collections;

@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace SpinningSwords.Extensions
+namespace SpinningSwords.Utils.Extensions
 {
     public static class DynamicBufferExtensions
     {

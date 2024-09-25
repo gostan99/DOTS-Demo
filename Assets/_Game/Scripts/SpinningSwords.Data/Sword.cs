@@ -36,6 +36,8 @@ namespace SpinningSwords.Data
         public bool StopPickupSwordCollision;
         public bool ReachMaxSwordCount => SwordCount >= MaxSwordCount;
 
+        public bool ReachMaxSwordWeight => Weight >= MaxWeight;
+
         public void DefaultValue()
         {
             OrbitTargetEntity = Entity.Null;
@@ -71,9 +73,6 @@ namespace SpinningSwords.Data
         public BlobAssetReference<Collider> DetachedCollider;
     }
 
-    public struct PickupSword : IComponentData
-    {
-    }
 
     [InternalBufferCapacity(50)]
     public struct SwordBuffer : IBufferElementData

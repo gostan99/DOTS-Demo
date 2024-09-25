@@ -1,9 +1,10 @@
-using BovineLabs.Core.LifeCycle;
+﻿using BovineLabs.Core.LifeCycle;
 using BovineLabs.Core.PhysicsStates;
 using SpinningSwords.Data;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Physics.Systems;
 
 namespace SpinningSwords
@@ -30,7 +31,15 @@ namespace SpinningSwords
                 SwordPrefabLookup = SystemAPI.GetComponentLookup<SwordPrefab>(true),
                 Ecb = SystemAPI.GetSingleton<InstantiateCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged),
             };
-            state.Dependency = pickupSwordJob.Schedule(state.Dependency);
+            Unity.Jobs.JobHandle pickupSwordJobHandle = pickupSwordJob.Schedule(state.Dependency);
+
+            PickupSwordWeightJob pickupSwordWeightJob = new PickupSwordWeightJob
+            {
+                DestroyEntityLookup = SystemAPI.GetComponentLookup<DestroyEntity>(),
+                SwordControllerLookup = SystemAPI.GetComponentLookup<SwordController>(),
+                Ecb = SystemAPI.GetSingleton<InstantiateCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged),
+            };
+            state.Dependency = pickupSwordWeightJob.Schedule(pickupSwordJobHandle); //todo: tách chỉ số SwordCount và SwordWeight để 2 job này không bị phụ thuộc vào nhau
         }
 
         [WithAll(typeof(PickupSword))]
@@ -44,7 +53,7 @@ namespace SpinningSwords
 
             public EntityCommandBuffer Ecb;
 
-            public void Execute(Entity entity, DynamicBuffer<StatefulTriggerEvent> collisionEvents)
+            public void Execute(Entity entity, in DynamicBuffer<StatefulTriggerEvent> collisionEvents)
             {
                 for (int i = 0; i < collisionEvents.Length; i++)
                 {
@@ -58,6 +67,38 @@ namespace SpinningSwords
 
                             Entity newEntity = Ecb.Instantiate(swordPrefab.Value);
                             Ecb.AddSharedComponent(newEntity, new SwordOrbitTarget { TargetParent = collisionEvent.EntityB, Target = swordController.OrbitTargetEntity });
+
+                            DestroyEntityLookup.SetComponentEnabled(entity, true);
+
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        [WithAll(typeof(PickupSwordWeight))]
+        [WithNone(typeof(DestroyEntity))]
+        public partial struct PickupSwordWeightJob : IJobEntity
+        {
+            public ComponentLookup<DestroyEntity> DestroyEntityLookup;
+            public ComponentLookup<SwordController> SwordControllerLookup;
+
+            public EntityCommandBuffer Ecb;
+
+            public void Execute(Entity entity, in DynamicBuffer<StatefulTriggerEvent> collisionEvents, in PickupSwordWeight pickupSwordWeight)
+            {
+                for (int i = 0; i < collisionEvents.Length; i++)
+                {
+                    StatefulTriggerEvent collisionEvent = collisionEvents[i];
+                    if (SwordControllerLookup.TryGetComponent(collisionEvent.EntityB, out SwordController swordController))
+                    {
+                        if (!swordController.ReachMaxSwordWeight)
+                        {
+                            swordController.Weight += pickupSwordWeight.Value;
+                            swordController.Weight = math.clamp(swordController.Weight + pickupSwordWeight.Value, 0, swordController.MaxWeight);
+                            SwordControllerLookup[collisionEvent.EntityB] = swordController;
 
                             DestroyEntityLookup.SetComponentEnabled(entity, true);
 

@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 3645420316266303229}
   - component: {fileID: -1109731863214566476}
   - component: {fileID: 3274443928870280200}
-  - component: {fileID: -7035363424500692239}
   - component: {fileID: 3189404603906822754}
   - component: {fileID: -1699274798766208538}
   - component: {fileID: 1536373320704883281}
+  - component: {fileID: -3189192341097676080}
   m_Layer: 0
-  m_Name: PickupSword
+  m_Name: PickupSwordWeight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0f29e3c1c576f6641b9e474f6b194480, type: 2}
+  - {fileID: 2100000, guid: 74117f645ca87544896e430b75e9a316, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -299,18 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0840ecef08e2c247b2c888debfff3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7035363424500692239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 334733473081836930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b78947cd6bebf24dbef31b6de66eb5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3189404603906822754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,3 +468,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374892803943bc04cb79933b2eeba006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3189192341097676080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334733473081836930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669e9010af007794081242da96dec7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 1

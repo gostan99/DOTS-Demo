@@ -1,10 +1,11 @@
 {
-    "name": "SpinningSwords",
+    "name": "Utils",
     "rootNamespace": "",
     "references": [
         "BovineLabs.Core",
+        "BovineLabs.Core.Authoring",
         "BovineLabs.Core.Extensions",
-        "BovineLabs.Core.UI",
+        "BovineLabs.Core.Extensions.Authoring",
         "SpinningSwords.Data",
         "Unity.Burst",
         "Unity.Collections",
@@ -17,10 +18,7 @@
         "Unity.Mathematics.Extensions",
         "Unity.Physics",
         "Unity.Transforms",
-        "_GENERATED",
-        "Unity.CharacterController",
-        "Samples",
-        "Utils"
+        "_GENERATED"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -28,7 +26,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
