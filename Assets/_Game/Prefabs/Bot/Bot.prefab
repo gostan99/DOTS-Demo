@@ -432,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetReachDistance: 3
   InitialSwordCount:
-    Count: 10
+    Count: 0
   BotFindNewTargetInterval: 1.5
   SwordPrefab: {fileID: 7444470855714351455, guid: d4be7abac5ce19642a400b30b70b6787, type: 3}
   OrbitTarget: {fileID: 7557072666953407810}

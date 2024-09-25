@@ -122,10 +122,10 @@ namespace SpinningSwords
                     return;
                 }
 
-                LocalTransform transform = LocalTransformLookup[entity];
+                RefRW<LocalTransform> transform = LocalTransformLookup.GetRefRW(entity);
                 LocalTransform targetTransform = LocalTransformLookup[target.Target];
-                float dstqr = math.distancesq(transform.Position, targetTransform.Position);
-                float3 dir = math.normalize(LocalTransformLookup[target.Target].Position - transform.Position);
+                float dstqr = math.distancesq(transform.ValueRO.Position, targetTransform.Position);
+                float3 dir = math.normalize(LocalTransformLookup[target.Target].Position - transform.ValueRO.Position);
 
                 //Handle chasing target
                 if (dstqr <= target.TargetReachDstSq)
@@ -137,8 +137,7 @@ namespace SpinningSwords
                     character.MoveVector = dir;
                 }
 
-                CharacterControlUtilities.SlerpRotationTowardsDirectionAroundUp(ref transform.Rotation, DeltaTime, dir, MathUtilities.GetUpFromRotation(transform.Rotation), characterComponent.RotationSharpness);
-                LocalTransformLookup[entity] = transform;
+                CharacterControlUtilities.SlerpRotationTowardsDirectionAroundUp(ref transform.ValueRW.Rotation, DeltaTime, dir, MathUtilities.GetUpFromRotation(transform.ValueRO.Rotation), characterComponent.RotationSharpness);
             }
         }
     }
