@@ -14,7 +14,9 @@
         "Unity.Mathematics",
         "Unity.Mathematics.Extensions",
         "Unity.Physics",
-        "Unity.Transforms"
+        "Unity.Transforms",
+        "com.trove.common",
+        "com.trove.utilityai"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -521,9 +521,16 @@ MonoBehaviour:
     Strength: 321
   SwordPrefab: {fileID: 7444470855714351455, guid: d4be7abac5ce19642a400b30b70b6787, type: 3}
   OrbitTarget: {fileID: 3762145653588314813}
-  InitialOrbitSpeed: 320
+  InitialOrbitSpeed: 100
   OrbitDistance: 2.4
   MaxOrbitSpeed: 500
   MaxWeight: 50
-  MaxSwordCount: 5
+  MaxSwordCount: 50
   SwordEquidistantDuration: 3
+  Radius: 10
+  Increment: 5
+  MaxRadius: 128
+  ConsiderationSetData: {fileID: 11400000, guid: c198b6b77e8d0c044a49d46c655f7338, type: 2}
+  DecisionInertia: 1.5
+  NearestActorConsiderationFLoor: 3.5
+  NearestPickupConsiderationFloor: 3

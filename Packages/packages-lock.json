@@ -16,6 +16,24 @@
       "dependencies": {},
       "hash": "a011c51ed65c9abc3151a7a408bc70d408352933"
     },
+    "com.trove.common": {
+      "version": "https://github.com/PhilSA/Trove.git?path=/com.trove.common",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.entities": "1.0.10"
+      },
+      "hash": "89dd7bc4874ec109bdf9514c448b403c8d71b7d8"
+    },
+    "com.trove.utilityai": {
+      "version": "https://github.com/PhilSA/Trove.git?path=/com.trove.utilityai",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.entities": "1.0.10"
+      },
+      "hash": "89dd7bc4874ec109bdf9514c448b403c8d71b7d8"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.4",
       "depth": 0,

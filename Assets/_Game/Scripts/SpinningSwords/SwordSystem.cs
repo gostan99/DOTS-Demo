@@ -89,7 +89,15 @@ namespace SpinningSwords
                     RefRW<Sword> sword = SwordLookup.GetRefRW(swordBuffers[i].Value);
                     float3 plannarForward = math.rotate(quaternion.Euler(math.up() * step), sword.ValueRO.PlanarForward);
                     float3 plannarForwardFinish = math.rotate(quaternion.Euler(math.up() * (angleStep * i)), firstSwordPlannarForwardFinish);
-                    float deltaAngle = step + math.sign(math.cross(plannarForward, plannarForwardFinish).y) * MathUtilities.AngleRadians(plannarForward, plannarForwardFinish);
+                    float deltaAngle;
+                    if (math.cross(plannarForward, firstSwordPlannarForwardFinish).y < 0)
+                    {
+                        deltaAngle = step + (math.PI2 - MathUtilities.AngleRadians(plannarForward, firstSwordPlannarForwardFinish) - (angleStep * i));
+                    }
+                    else
+                    {
+                        deltaAngle = step + (MathUtilities.AngleRadians(plannarForward, firstSwordPlannarForwardFinish) - (angleStep * i));
+                    }
                     sword.ValueRW.OrbitSpeed = math.degrees(deltaAngle) / swordEquidistant.Duration;
                     SwordEquidistantFinishLookup.SetComponentEnabled(swordBuffers[i].Value, true);
                     SwordEquidistantFinishLookup.GetRefRW(swordBuffers[i].Value).ValueRW.FinishTime = ElapsedTime + swordEquidistant.Duration;
@@ -415,8 +423,8 @@ namespace SpinningSwords
                 sword.ValueRW.PlanarForward = math.forward();
                 if (swordbuffer.Length > 1)
                 {
-                    SwordBuffer lasstSword = swordbuffer[^2];
-                    sword.ValueRW.PlanarForward = SwordLookup[lasstSword.Value].PlanarForward;
+                    SwordBuffer lastSword = swordbuffer[^2];
+                    sword.ValueRW.PlanarForward = SwordLookup[lastSword.Value].PlanarForward;
                     SwordEquidistantLookup.SetComponentEnabled(orbitTarget.TargetParent, true);
                 }
             }

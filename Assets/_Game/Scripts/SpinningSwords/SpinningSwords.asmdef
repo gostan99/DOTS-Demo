@@ -20,7 +20,9 @@
         "_GENERATED",
         "Unity.CharacterController",
         "Samples",
-        "Utils"
+        "Utils",
+        "com.trove.common",
+        "com.trove.utilityai"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

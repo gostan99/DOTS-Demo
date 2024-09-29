@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+    "com.trove.common": "https://github.com/PhilSA/Trove.git?path=/com.trove.common",
+    "com.trove.utilityai": "https://github.com/PhilSA/Trove.git?path=/com.trove.utilityai",
     "com.unity.ai.navigation": "2.0.4",
     "com.unity.charactercontroller": "1.2.0-pre.2",
     "com.unity.cloud.gltfast": "6.8.0",

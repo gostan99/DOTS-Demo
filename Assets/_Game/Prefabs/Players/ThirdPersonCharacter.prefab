@@ -507,7 +507,7 @@ MonoBehaviour:
     Strength: 321
   SwordPrefab: {fileID: 7444470855714351455, guid: d4be7abac5ce19642a400b30b70b6787, type: 3}
   OrbitTarget: {fileID: 2606443041019695440}
-  InitialOrbitSpeed: 125
+  InitialOrbitSpeed: 100
   OrbitDistance: 2.4
   MaxOrbitSpeed: 500
   MaxWeight: 50
