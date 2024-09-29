@@ -81,6 +81,9 @@ namespace SpinningSwords.Authoring
                 });
 
                 SetupAI(authoring);
+
+                AddComponent<EnableSpeedBoost>(entity);
+                SetComponentEnabled<EnableSpeedBoost>(entity, false);
             }
 
             public void SetupAI(FakePlayerAuthoring authoring)

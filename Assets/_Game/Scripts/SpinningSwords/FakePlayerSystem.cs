@@ -12,7 +12,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Extensions;
 using Unity.Transforms;
-using UnityEngine;
+using Action = Trove.UtilityAI.Action;
 using Collider = Unity.Physics.Collider;
 
 
@@ -206,20 +206,26 @@ namespace SpinningSwords
                 float swordKineticEnergy = swordController.Weight * swordController.OrbitSpeed;
                 float enemySwordKineticEnergy;
                 float enemyRunSpeed;
+                SwordController enemySwordController;
+                bool attackCon1 = false;
+                bool attackCon2 = false;
                 if (!nearestActor.Equals(Entity.Null))
                 {
-                    SwordController enemySwordController = SwordControllerLookup[nearestActor];
+                    enemySwordController = SwordControllerLookup[nearestActor];
                     enemySwordKineticEnergy = enemySwordController.Weight * enemySwordController.OrbitSpeed;
 
                     ThirdPersonCharacterComponent enemyCharacterCtrl = ThirdPersonCharacterComponentLookup[nearestActor];
                     enemyRunSpeed = enemyCharacterCtrl.GroundMaxSpeed;
+
+                    attackCon1 = swordKineticEnergy > enemySwordKineticEnergy && swordController.SwordCount > 0;
+                    attackCon2 = swordController.SwordCount > 0 && enemySwordController.SwordCount == 0;
                 }
                 else
                 {
                     enemySwordKineticEnergy = float.MaxValue;
                     enemyRunSpeed = float.MaxValue;
                 }
-                bool wantAttacking = (swordKineticEnergy > enemySwordKineticEnergy) && (swordController.SwordCount > 0);
+                bool wantAttacking = attackCon1 || attackCon2;
 
                 ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.SwordKineticEnergyRef, wantAttacking ? 1 : 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
                 ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.RunSpeedRef, math.saturate(thirdPersonCharacter.GroundMaxSpeed / (enemyRunSpeed * 2)), in reasoner, considerationsBuffer, considerationInputsBuffer);
@@ -278,7 +284,7 @@ namespace SpinningSwords
                                 {
                                     fakePlayerAI.AvoidantTarget = nearestActor;
                                     float3 dir = math.normalize(localTransform.Position - LocalTransformLookup[fakePlayerAI.AvoidantTarget].Position);
-                                    dir = math.rotate(quaternion.RotateY(Random.GetRandomRef().NextFloat(-90, 90)), dir);
+                                    dir = math.rotate(quaternion.RotateY(Random.GetRandomRef().NextFloat(-100, 100)), dir);
                                     fakePlayerAI.AvoidanceDir = dir;
                                 }
                                 break;
@@ -297,7 +303,6 @@ namespace SpinningSwords
 
             public void Execute(ref FakePlayerAI fakePlayerAI, ref ThirdPersonCharacterControl thirdPersonCharacterControl, in LocalTransform localTransform)
             {
-                Debug.Log(fakePlayerAI.SelectedAction);
                 switch (fakePlayerAI.SelectedAction)
                 {
                     case FakePlayerAIAction.CollectItem:

@@ -54,6 +54,9 @@ namespace SpinningSwords.Authoring
                 SetComponentEnabled<SwordEquidistant>(entity, false);
 
                 AddBuffer<SwordBuffer>(entity);
+
+                AddComponent<EnableSpeedBoost>(entity);
+                SetComponentEnabled<EnableSpeedBoost>(entity, false);
             }
         }
     }

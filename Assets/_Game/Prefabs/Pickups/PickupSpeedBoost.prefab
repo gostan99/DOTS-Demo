@@ -480,5 +480,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a87039e8a21704f80ed438d381d3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostValue: 50
-  Duration: 3
+  BoostValue: 35
+  Duration: 2

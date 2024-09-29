@@ -20,7 +20,8 @@
         "Unity.Transforms",
         "_GENERATED",
         "com.trove.common",
-        "com.trove.utilityai"
+        "com.trove.utilityai",
+        "Samples"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

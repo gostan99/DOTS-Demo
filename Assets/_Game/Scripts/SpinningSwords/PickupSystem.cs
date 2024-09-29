@@ -45,17 +45,10 @@ namespace SpinningSwords
             {
                 DestroyEntityLookup = SystemAPI.GetComponentLookup<DestroyEntity>(),
                 ThirdPersonCharacterComponentLookup = SystemAPI.GetComponentLookup<ThirdPersonCharacterComponent>(),
-                Ecb = SystemAPI.GetSingleton<InstantiateCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+                EnableSpeedBoostLookup = SystemAPI.GetComponentLookup<EnableSpeedBoost>(),
                 Time = SystemAPI.Time.ElapsedTime
             };
             pickupSpeedBoostJob.ScheduleParallel();
-
-            StopSpeedBoostJob stopSpeedBoostJob = new StopSpeedBoostJob
-            {
-                Ecb = SystemAPI.GetSingleton<InstantiateCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-                Time = SystemAPI.Time.ElapsedTime
-            };
-            stopSpeedBoostJob.ScheduleParallel();
         }
 
         [WithAll(typeof(PickupSword))]
@@ -135,8 +128,9 @@ namespace SpinningSwords
             public ComponentLookup<DestroyEntity> DestroyEntityLookup;
             [NativeDisableParallelForRestriction]
             public ComponentLookup<ThirdPersonCharacterComponent> ThirdPersonCharacterComponentLookup;
+            [NativeDisableParallelForRestriction]
+            public ComponentLookup<EnableSpeedBoost> EnableSpeedBoostLookup;
 
-            public EntityCommandBuffer.ParallelWriter Ecb;
             public double Time;
 
             public void Execute([ChunkIndexInQuery] int sortKey, Entity entity, in DynamicBuffer<StatefulTriggerEvent> collisionEvents, in PickupSpeedBoost pickupSpeedBoost)
@@ -146,12 +140,9 @@ namespace SpinningSwords
                     StatefulTriggerEvent collisionEvent = collisionEvents[i];
                     if (ThirdPersonCharacterComponentLookup.TryGetComponent(collisionEvent.EntityB, out ThirdPersonCharacterComponent thirdPersonCharacterComponent))
                     {
-                        Ecb.AddComponent(sortKey, collisionEvent.EntityB, new EnableSpeedBoost
-                        {
-                            NormalSpeed = thirdPersonCharacterComponent.GroundMaxSpeed,
-                            DisableAt = Time + pickupSpeedBoost.Duration
-                        });
-                        Ecb.SetComponentEnabled<EnableSpeedBoost>(sortKey, collisionEvent.EntityB, true);
+                        RefRW<EnableSpeedBoost> enableSpeedBoost = EnableSpeedBoostLookup.GetRefRW(collisionEvent.EntityB);
+                        enableSpeedBoost.ValueRW.DisableAt = Time + pickupSpeedBoost.Duration;
+                        EnableSpeedBoostLookup.SetComponentEnabled(collisionEvent.EntityB, true);
                         thirdPersonCharacterComponent.GroundMaxSpeed = pickupSpeedBoost.BoostValue;
                         ThirdPersonCharacterComponentLookup[collisionEvent.EntityB] = thirdPersonCharacterComponent;
 
@@ -160,20 +151,6 @@ namespace SpinningSwords
                         return;
                     }
                 }
-            }
-        }
-
-        public partial struct StopSpeedBoostJob : IJobEntity
-        {
-            public EntityCommandBuffer.ParallelWriter Ecb;
-            public double Time;
-
-            public void Execute([ChunkIndexInQuery] int sortKey, Entity entity, in EnableSpeedBoost enableSpeedBoost, ref ThirdPersonCharacterComponent thirdPersonCharacterComponent)
-            {
-                if (Time < enableSpeedBoost.DisableAt) return;
-
-                thirdPersonCharacterComponent.GroundMaxSpeed = enableSpeedBoost.NormalSpeed;
-                Ecb.SetComponentEnabled<EnableSpeedBoost>(sortKey, entity, false);
             }
         }
     }
