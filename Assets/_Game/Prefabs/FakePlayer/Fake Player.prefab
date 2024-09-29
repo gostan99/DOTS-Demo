@@ -526,7 +526,7 @@ MonoBehaviour:
   MaxOrbitSpeed: 500
   MaxWeight: 50
   MaxSwordCount: 50
-  SwordEquidistantDuration: 3
+  SwordEquidistantDuration: 1.68
   Radius: 10
   Increment: 5
   MaxRadius: 128
@@ -534,3 +534,4 @@ MonoBehaviour:
   DecisionInertia: 1.5
   NearestActorConsiderationFLoor: 3.5
   NearestPickupConsiderationFloor: 3
+  StopChasingDst: 3

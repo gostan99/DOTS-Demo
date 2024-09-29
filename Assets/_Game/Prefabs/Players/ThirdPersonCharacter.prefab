@@ -314,7 +314,7 @@ MonoBehaviour:
     SimulateDynamicBody: 1
     Mass: 1
   RotationSharpness: 25
-  GroundMaxSpeed: 10
+  GroundMaxSpeed: 11.5
   GroundedMovementSharpness: 15
   AirAcceleration: 50
   AirMaxSpeed: 10
@@ -512,7 +512,7 @@ MonoBehaviour:
   MaxOrbitSpeed: 500
   MaxWeight: 50
   MaxSwordCount: 50
-  SwordEquidistantDuration: 3
+  SwordEquidistantDuration: 1.68
 --- !u!114 &8193650319469799845
 MonoBehaviour:
   m_ObjectHideFlags: 0

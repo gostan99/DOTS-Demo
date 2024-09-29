@@ -432,16 +432,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetReachDistance: 3
   InitialSwordCount:
-    Count: 0
+    Count: 5
   BotFindNewTargetInterval: 1.5
   SwordPrefab: {fileID: 7444470855714351455, guid: d4be7abac5ce19642a400b30b70b6787, type: 3}
   OrbitTarget: {fileID: 7557072666953407810}
-  InitialOrbitSpeed: 335
+  InitialOrbitSpeed: 285
   OrbitDistance: 2.4
   MaxOrbitSpeed: 500
   MaxWeight: 50
   MaxSwordCount: 5
-  SwordEquidistantDuration: 1.54
+  SwordEquidistantDuration: 1.68
 --- !u!1 &9168594513376520977
 GameObject:
   m_ObjectHideFlags: 0
