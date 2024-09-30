@@ -20,7 +20,7 @@ namespace SpinningSwords
         public void OnUpdate(ref SystemState state)
         {
             foreach ((ThirdPersonCharacterComponent thirdPersonCharacterComponent, RefRW<EnableSpeedBoost> enableSpeedBoost)
-                in SystemAPI.Query<ThirdPersonCharacterComponent, RefRW<EnableSpeedBoost>>().WithPresent<EnableSpeedBoost>().WithAll<InitializeEntity>())
+                in SystemAPI.Query<ThirdPersonCharacterComponent, RefRW<EnableSpeedBoost>>().WithPresent<EnableSpeedBoost>().WithAny<InitializeEntity, InitializeSubSceneEntity>())
             {
                 enableSpeedBoost.ValueRW.NormalSpeed = thirdPersonCharacterComponent.GroundMaxSpeed;
             }
