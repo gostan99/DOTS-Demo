@@ -1,4 +1,4 @@
-﻿// <copyright file="UIGameBinding.cs" company="BovineLabs">
+﻿// <copyright file="UIMenuBinding.cs" company="BovineLabs">
 //     Copyright (c) BovineLabs. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace SpinningSwords.UI
     using BovineLabs.Core.UI;
     using Unity.Properties;
 
-    public class UIGameBinding : IBindingObject<UIGameBinding.Data>
+    public class UIGameOverBinding : IBindingObject<UIGameOverBinding.Data>
     {
         private Data data;
 
@@ -20,9 +20,17 @@ namespace SpinningSwords.UI
             set => this.data.Quit.TryProduce(value);
         }
 
+        [CreateProperty]
+        public int PlayerCount
+        {
+            get => this.data.PlayerCount;
+            set => this.data.PlayerCount = value;
+        }
+
         public struct Data : IBindingObject
         {
             public ButtonEvent Quit;
+            public int PlayerCount;
         }
     }
 }

@@ -9,11 +9,16 @@ namespace SpinningSwords.Authoring
     using BovineLabs.Core.Settings;
     using SpinningSwords.Data;
     using Unity.Entities;
+    using UnityEngine;
 
     [SettingsGroup("Core")]
     [SettingsWorld("Shared")]
     public class GameSettings : BovineLabs.Core.Authoring.GameSettings
     {
+        [Tooltip("In seconds")]
+        public float PlayTimeMax = 30;
+        public int PlayerCount = 5;
+
         public override void Bake(Baker<SettingsAuthoring> baker)
         {
             base.Bake(baker);
@@ -24,6 +29,11 @@ namespace SpinningSwords.Authoring
             // States
             baker.AddComponent(entity, gameState);
             baker.AddComponent<GameStatePrevious>(entity);
+            baker.AddComponent(entity, new GameSession
+            {
+                PlayTimeMax = this.PlayTimeMax,
+                PlayerCount = PlayerCount
+            });
         }
     }
 }

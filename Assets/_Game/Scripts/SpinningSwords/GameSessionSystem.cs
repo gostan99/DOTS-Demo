@@ -12,8 +12,6 @@ namespace SpinningSwords
         {
             state.RequireForUpdate<GameSession>();
             state.RequireForUpdate<GameState>();
-
-            state.EntityManager.CreateSingleton<GameSession>();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -23,6 +21,15 @@ namespace SpinningSwords
             GameSession gameSession = SystemAPI.GetSingleton<GameSession>();
             gameSession.PlayTime += SystemAPI.Time.DeltaTime;
             SystemAPI.SetSingleton(gameSession);
+
+            bool isGameOver = false;
+            ThirdPersonPlayer player = SystemAPI.GetSingleton<ThirdPersonPlayer>();
+            isGameOver = gameSession.PlayTime >= gameSession.PlayTimeMax || !state.EntityManager.Exists(player.ControlledCharacter);
+
+            if (isGameOver)
+            {
+                GameAPI.StateSet(ref state, "game over");
+            }
         }
     }
 }

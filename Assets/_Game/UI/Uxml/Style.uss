@@ -1,0 +1,30 @@
+.sw-button {
+    width: 200px;
+    height: 50px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Assets/Monocraft.ttc?fileID=12800000&guid=56e1297850c0abc4aafa91f5ba5c4288&type=3#Monocraft");
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    text-shadow: 0 1px 0 rgba(255, 0, 0, 0.35);
+    border-top-width: 2.5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    font-size: 16px;
+    background-color: rgb(141, 255, 107);
+}
+
+.sw-text {
+    -unity-text-align: middle-center;
+    align-items: stretch;
+    align-content: flex-start;
+    align-self: center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Assets/Monocraft.ttc?fileID=12800000&guid=56e1297850c0abc4aafa91f5ba5c4288&type=3#Monocraft");
+    color: rgb(0, 0, 0);
+    text-shadow: 0 1px 0 rgba(255, 0, 0, 0.35);
+}

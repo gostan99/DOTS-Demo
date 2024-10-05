@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Game/UI/Uxml/Style.uss?fileID=7433441132597879392&amp;guid=70b3b82f4001cbb4881dfad70d014f04&amp;type=3#Style" />
+    <ui:VisualElement name="Root" style="width: 100%; height: 100%; position: absolute; align-items: stretch; justify-content: flex-start; align-self: center; align-content: flex-start; visibility: visible;">
+        <ui:VisualElement name="PlacementBG" style="flex-grow: 1; align-items: flex-start; align-self: center; height: 87px; background-color: rgb(141, 255, 107); position: absolute; width: 150px; align-content: flex-start; justify-content: flex-start; margin-top: 39px; border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-right-radius: 9px; border-bottom-left-radius: 9px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+            <ui:Label text="Placement" class="sw-text" style="margin-top: 17px; align-items: center; justify-content: flex-start;" />
+            <ui:VisualElement name="PlacementContainer" style="flex-grow: 1; flex-direction: row; align-self: center; align-content: center; justify-content: center; height: 17px; width: auto; align-items: center; font-size: 20px;">
+                <ui:Label text="#1" name="Placement" class="sw-text" style="-unity-text-align: middle-right; padding-right: 0; margin-right: 0; width: 20px; height: 20px; padding-bottom: 0; margin-bottom: 0; align-content: flex-end; top: auto; left: auto; bottom: auto; right: auto; transform-origin: center; align-self: flex-start; justify-content: flex-start; align-items: flex-start;" />
+                <ui:Label text="/" name="Slash" selectable="false" class="sw-text" style="-unity-text-align: lower-left; padding-right: 0; margin-right: 0; width: 8px; height: 20px; padding-bottom: 0; margin-bottom: 0; align-content: flex-end; top: auto; left: auto; bottom: auto; right: auto; transform-origin: center; margin-left: 0; padding-left: 0; font-size: 12px; align-self: flex-start; justify-content: flex-start; align-items: flex-start; white-space: nowrap; text-overflow: clip; -unity-font-definition: url(&quot;project://database/Assets/_Game/UI/Assets/Monocraft.ttc?fileID=12800000&amp;guid=56e1297850c0abc4aafa91f5ba5c4288&amp;type=3#Monocraft&quot;);" />
+                <ui:Label text="5&#10;" name="TotalPlayers" selectable="false" class="sw-text" style="-unity-text-align: lower-left; padding-right: 1px; margin-right: 2px; width: 20px; height: 20px; padding-bottom: 0; margin-bottom: 0; align-content: flex-end; top: auto; left: auto; bottom: auto; right: auto; transform-origin: center; margin-left: 0; padding-left: 0; font-size: 12px; align-self: flex-start; justify-content: flex-start; align-items: flex-start; white-space: nowrap; text-overflow: clip; -unity-font-definition: url(&quot;project://database/Assets/_Game/UI/Assets/Monocraft.ttc?fileID=12800000&amp;guid=56e1297850c0abc4aafa91f5ba5c4288&amp;type=3#Monocraft&quot;);">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="PlayerCount" data-source-type="SpinningSwords.UI.UIGameOverBinding, SpinningSwords" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; height: 355px; align-items: flex-start; align-self: stretch; align-content: flex-end; justify-content: flex-end;">
+            <BovineLabs.Core.UI.BindableButton text="Return To Menu" class="sw-button" style="bottom: 22px; align-self: center;">
+                <Bindings>
+                    <ui:DataBinding property="wasClicked" data-source-path="Quit" data-source-type="SpinningSwords.UI.UIGameOverBinding, SpinningSwords" binding-mode="ToSource" />
+                </Bindings>
+            </BovineLabs.Core.UI.BindableButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

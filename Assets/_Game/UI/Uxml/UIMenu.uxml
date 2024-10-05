@@ -1,7 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <BovineLabs.Core.UI.BindableButton text="Start Game" name="Start" style="width: 200px; height: 50px; position: absolute; top: 50%; left: 50%; bottom: 50%; right: 50%; translate: -50% -50%;">
-        <Bindings>
-            <ui:DataBinding property="wasClicked" binding-mode="ToSource" data-source-type="SpinningSwords.UI.UIMenuBinding, SpinningSwords" data-source-path="Play" />
-        </Bindings>
-    </BovineLabs.Core.UI.BindableButton>
+    <Style src="project://database/Assets/_Game/UI/Uxml/Style.uss?fileID=7433441132597879392&amp;guid=70b3b82f4001cbb4881dfad70d014f04&amp;type=3#Style" />
+    <ui:VisualElement style="flex-grow: 1; justify-content: center; align-items: stretch; align-content: flex-start; align-self: stretch;">
+        <BovineLabs.Core.UI.BindableButton text="Start" name="Start" class="sw-button" style="width: 200px; height: 50px; position: relative; top: -5px; left: auto; bottom: auto; right: auto; translate: 0 0; align-self: center; align-items: stretch;">
+            <Bindings>
+                <ui:DataBinding property="wasClicked" data-source-path="Play" data-source-type="SpinningSwords.UI.UIMenuBinding, SpinningSwords" binding-mode="ToSource" update-trigger="OnSourceChanged" />
+            </Bindings>
+        </BovineLabs.Core.UI.BindableButton>
+        <BovineLabs.Core.UI.BindableButton text="Quit" name="Quit" class="sw-button" style="width: 200px; height: 50px; position: relative; top: 21px; left: auto; bottom: auto; right: auto; translate: 0 -50%; background-color: rgb(214, 130, 56); align-self: center; justify-content: flex-start;">
+            <Bindings>
+                <ui:DataBinding property="wasClicked" data-source-path="Quit" data-source-type="SpinningSwords.UI.UIMenuBinding, SpinningSwords" binding-mode="ToSource" update-trigger="OnSourceChanged" />
+            </Bindings>
+        </BovineLabs.Core.UI.BindableButton>
+    </ui:VisualElement>
 </ui:UXML>

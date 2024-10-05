@@ -1,12 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <BovineLabs.Core.UI.BindableButton text="Return to Menu" name="Start" data-source-type="SpinningSwords.UI.UIGameBinding+Data, SpinningSwords" style="width: 200px; height: 50px;">
-        <Bindings>
-            <ui:DataBinding property="wasClicked" data-source-path="Quit" binding-mode="ToSource" data-source-type="SpinningSwords.UI.UIGameBinding, SpinningSwords" />
-        </Bindings>
-    </BovineLabs.Core.UI.BindableButton>
-    <BovineLabs.Core.UI.BindableButton text="Test" name="Test" data-source-type="SpinningSwords.UI.UIGameBinding+Data, SpinningSwords" was-clicked="true" style="width: 200px; height: 50px;">
-        <Bindings>
-            <ui:DataBinding property="wasClicked" data-source-path="Test" binding-mode="ToSource" data-source-type="SpinningSwords.UI.UIGameBinding, SpinningSwords" />
-        </Bindings>
-    </BovineLabs.Core.UI.BindableButton>
+    <Style src="project://database/Assets/_Game/UI/Uxml/Style.uss?fileID=7433441132597879392&amp;guid=70b3b82f4001cbb4881dfad70d014f04&amp;type=3#Style" />
+    <ui:VisualElement style="flex-grow: 1; align-items: flex-start; align-self: stretch; top: auto; left: auto;">
+        <BovineLabs.Core.UI.BindableButton name="ReturnToMenu" text="Return To Menu" class="sw-button" style="align-self: flex-start; position: absolute; top: auto; left: auto;">
+            <Bindings>
+                <ui:DataBinding property="wasClicked" data-source-path="Quit" data-source-type="SpinningSwords.UI.UIGameBinding, SpinningSwords" binding-mode="ToSource" />
+            </Bindings>
+        </BovineLabs.Core.UI.BindableButton>
+    </ui:VisualElement>
 </ui:UXML>

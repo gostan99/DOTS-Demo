@@ -14,7 +14,7 @@ public class MyTool : EditorWindow
     [MenuItem("My Tool/Update PhysicsCategoryNames")]
     public static void ShowWindow()
     {
-        Object obj = Selection.activeObject; //Get the object/
+        UnityEngine.Object obj = Selection.activeObject; //Get the object/
 
         if (obj == null) //Check for the null.
             return;

@@ -39,6 +39,16 @@ namespace SpinningSwords.UI
             {
                 GameAPI.StateSet(ref state, "game");
             }
+            if (this.helper.Binding.Quit.TryConsume())
+            {
+#if !PLATFORM_EXCLUDES_QUIT_MENU
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#elif !UNITY_SERVER
+                Application.Quit();
+#endif
+#endif
+            }
         }
 
         private struct State : IComponentData
@@ -46,3 +56,4 @@ namespace SpinningSwords.UI
         }
     }
 }
+

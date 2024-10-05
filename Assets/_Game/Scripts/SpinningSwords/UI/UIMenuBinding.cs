@@ -21,9 +21,17 @@ namespace SpinningSwords.UI
             set => this.data.Play.TryProduce(value);
         }
 
+        [CreateProperty]
+        public bool Quit
+        {
+            get => this.data.Quit.Value;
+            set => this.data.Quit.TryProduce(value);
+        }
+
         public struct Data : IBindingObject
         {
             public ButtonEvent Play;
+            public ButtonEvent Quit;
         }
     }
 }
