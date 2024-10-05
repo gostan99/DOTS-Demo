@@ -28,11 +28,12 @@ namespace SpinningSwords.Data
         public ActionReference AvoidanceActionRef;
 
         // Store references to our consideration instances
-        public ConsiderationReference SwordKineticEnergyRef;
+        public ConsiderationReference WantAttackRef;
+        public ConsiderationReference WantAvoidRef;
         public ConsiderationReference RunSpeedRef;
-        public ConsiderationReference NearestActorRef; // Actor: Player or Bot
-        public ConsiderationReference NearestActorAvoidanceRef; // Actor: Player or Bot
-        public ConsiderationReference NearestPickupRef;
+        public ConsiderationReference NearestAvoidDistanceRef; // Actor: Player or Bot
+        public ConsiderationReference NearestAttackDistanceRef; // Actor: Player or Bot
+        public ConsiderationReference NearestPickupDistanceRef;
 
         // Characteristics of this AI
         public float DecisionInertia;
@@ -43,8 +44,7 @@ namespace SpinningSwords.Data
         // State of this AI
         public double TimeToMadeDecision;
         public bool ShouldUpdateReasoner;
-        public Entity AttackTarget;
-        public Entity AvoidantTarget;
+        public Entity NearestActor;
         public Entity PickupTarget;
         public float3 AvoidanceDir;
     }

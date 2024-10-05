@@ -173,6 +173,7 @@ namespace SpinningSwords
                     return;
                 }
 
+                // find the nearest pickup and nearest actor
                 Entity nearestPickup = Entity.Null;
                 float nearestPickupDstSq = float.MaxValue;
                 float3 nearestPickupDir = float3.zero;
@@ -203,35 +204,57 @@ namespace SpinningSwords
                     }
                 }
 
-                float swordKineticEnergy = swordController.Weight * swordController.OrbitSpeed;
-                float enemySwordKineticEnergy;
-                float enemyRunSpeed;
-                SwordController enemySwordController;
-                bool attackCon1 = false;
-                bool attackCon2 = false;
-                if (!nearestActor.Equals(Entity.Null))
+                if (nearestActor.Equals(Entity.Null)) // no avoidance or attacking
                 {
-                    enemySwordController = SwordControllerLookup[nearestActor];
-                    enemySwordKineticEnergy = enemySwordController.Weight * enemySwordController.OrbitSpeed;
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAttackRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAvoidRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.RunSpeedRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAvoidDistanceRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAttackDistanceRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestPickupDistanceRef, math.saturate(fakePlayerAI.NearestPickupConsiderationFloor / math.sqrt(nearestPickupDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                }
+                else if (nearestPickup.Equals(Entity.Null)) // only avoidance or attacking
+                {
+                    SwordController enemySwordController = SwordControllerLookup[nearestActor];
+                    float enemySwordKineticEnergy = enemySwordController.Weight * enemySwordController.OrbitSpeed;
+                    float swordKineticEnergy = swordController.Weight * swordController.OrbitSpeed;
 
                     ThirdPersonCharacterComponent enemyCharacterCtrl = ThirdPersonCharacterComponentLookup[nearestActor];
-                    enemyRunSpeed = enemyCharacterCtrl.GroundMaxSpeed;
+                    float enemyRunSpeed = enemyCharacterCtrl.GroundMaxSpeed;
 
-                    attackCon1 = swordKineticEnergy > enemySwordKineticEnergy && swordController.SwordCount > 0;
-                    attackCon2 = swordController.SwordCount > 0 && enemySwordController.SwordCount == 0;
+                    bool attackCon1 = swordKineticEnergy > enemySwordKineticEnergy && swordController.SwordCount > 0;
+                    bool attackCon2 = swordController.SwordCount > 0 && enemySwordController.SwordCount == 0;
+
+                    bool wantAttacking = attackCon1 || attackCon2;
+
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAttackRef, wantAttacking ? 1 : 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAvoidRef, wantAttacking ? 0 : 1, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.RunSpeedRef, math.saturate(thirdPersonCharacter.GroundMaxSpeed / (enemyRunSpeed * 1.1f)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAttackDistanceRef, math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAvoidDistanceRef, math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestPickupDistanceRef, 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
                 }
-                else
+                else // avoidance or attacking or collect pickup
                 {
-                    enemySwordKineticEnergy = float.MaxValue;
-                    enemyRunSpeed = float.MaxValue;
-                }
-                bool wantAttacking = attackCon1 || attackCon2;
+                    SwordController enemySwordController = SwordControllerLookup[nearestActor];
+                    float enemySwordKineticEnergy = enemySwordController.Weight * enemySwordController.OrbitSpeed;
+                    float swordKineticEnergy = swordController.Weight * swordController.OrbitSpeed;
 
-                ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.SwordKineticEnergyRef, wantAttacking ? 1 : 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
-                ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.RunSpeedRef, math.saturate(thirdPersonCharacter.GroundMaxSpeed / (enemyRunSpeed * 2)), in reasoner, considerationsBuffer, considerationInputsBuffer);
-                ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestActorRef, math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
-                ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestPickupRef, math.saturate(fakePlayerAI.NearestPickupConsiderationFloor / math.sqrt(nearestPickupDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
-                ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestActorAvoidanceRef, wantAttacking ? 0 : math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ThirdPersonCharacterComponent enemyCharacterCtrl = ThirdPersonCharacterComponentLookup[nearestActor];
+                    float enemyRunSpeed = enemyCharacterCtrl.GroundMaxSpeed;
+
+                    bool attackCon1 = swordKineticEnergy > enemySwordKineticEnergy && swordController.SwordCount > 0;
+                    bool attackCon2 = swordController.SwordCount > 0 && enemySwordController.SwordCount == 0;
+
+                    bool wantAttacking = attackCon1 || attackCon2;
+
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAttackRef, wantAttacking ? 1 : 0, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.WantAvoidRef, wantAttacking ? 0 : 1, in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.RunSpeedRef, math.saturate(thirdPersonCharacter.GroundMaxSpeed / (enemyRunSpeed * 1.1f)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAttackDistanceRef, math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestAvoidDistanceRef, math.saturate(fakePlayerAI.NearestActorConsiderationFLoor / math.sqrt(nearestActorDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                    ReasonerUtilities.SetConsiderationInput(ref fakePlayerAI.NearestPickupDistanceRef, math.saturate(fakePlayerAI.NearestPickupConsiderationFloor / math.sqrt(nearestPickupDstSq)), in reasoner, considerationsBuffer, considerationInputsBuffer);
+                }
 
                 // Create an action selector (determines how we pick the "best" action). There are various types of
                 // selectors to choose from, and you can also create your own
@@ -263,28 +286,16 @@ namespace SpinningSwords
                         switch (fakePlayerAI.SelectedAction)
                         {
                             case FakePlayerAIAction.CollectItem:
-                                // Bad code!
-                                if (!nearestPickup.Equals(Entity.Null))
-                                {
-                                    fakePlayerAI.PickupTarget = nearestPickup;
-                                }
-                                else if (!nearestActor.Equals(Entity.Null))
-                                {
-                                    fakePlayerAI.SelectedAction = FakePlayerAIAction.Avoidance;
-                                    fakePlayerAI.AvoidantTarget = nearestActor;
-                                    float3 dir = math.normalize(localTransform.Position - LocalTransformLookup[fakePlayerAI.AvoidantTarget].Position);
-                                    dir = math.rotate(quaternion.RotateY(Random.GetRandomRef().NextFloat(-90, 90)), dir);
-                                    fakePlayerAI.AvoidanceDir = dir;
-                                }
+                                fakePlayerAI.PickupTarget = nearestPickup;
                                 break;
                             case FakePlayerAIAction.Attack:
-                                fakePlayerAI.AttackTarget = nearestActor;
+                                fakePlayerAI.NearestActor = nearestActor;
                                 break;
                             case FakePlayerAIAction.Avoidance:
                                 {
-                                    fakePlayerAI.AvoidantTarget = nearestActor;
-                                    float3 dir = math.normalize(localTransform.Position - LocalTransformLookup[fakePlayerAI.AvoidantTarget].Position);
-                                    dir = math.rotate(quaternion.RotateY(Random.GetRandomRef().NextFloat(-100, 100)), dir);
+                                    fakePlayerAI.NearestActor = nearestActor;
+                                    float3 dir = math.normalize(localTransform.Position - LocalTransformLookup[fakePlayerAI.NearestActor].Position);
+                                    dir = math.rotate(quaternion.RotateY(Random.GetRandomRef().NextFloat(-90, 90)), dir);
                                     fakePlayerAI.AvoidanceDir = dir;
                                 }
                                 break;
@@ -312,12 +323,10 @@ namespace SpinningSwords
                             fakePlayerAI.ShouldUpdateReasoner = true;
                         break;
                     case FakePlayerAIAction.Attack:
-                        if (EntityStorageInfoLookup.Exists(fakePlayerAI.AttackTarget))
+                        if (EntityStorageInfoLookup.Exists(fakePlayerAI.NearestActor))
                         {
-                            if (math.distancesq(localTransform.Position, LocalTransformLookup[fakePlayerAI.AttackTarget].Position) > fakePlayerAI.StopChasingDst * fakePlayerAI.StopChasingDst)
-                            {
-                                thirdPersonCharacterControl.MoveVector = math.normalize(LocalTransformLookup[fakePlayerAI.AttackTarget].Position - localTransform.Position);
-                            }
+                            if (math.distancesq(localTransform.Position, LocalTransformLookup[fakePlayerAI.NearestActor].Position) > fakePlayerAI.StopChasingDst * fakePlayerAI.StopChasingDst)
+                                thirdPersonCharacterControl.MoveVector = math.normalize(LocalTransformLookup[fakePlayerAI.NearestActor].Position - localTransform.Position);
                             else
                                 thirdPersonCharacterControl.MoveVector = float3.zero;
                         }
@@ -325,10 +334,8 @@ namespace SpinningSwords
                             fakePlayerAI.ShouldUpdateReasoner = true;
                         break;
                     case FakePlayerAIAction.Avoidance:
-                        if (EntityStorageInfoLookup.Exists(fakePlayerAI.AvoidantTarget))
-                        {
+                        if (EntityStorageInfoLookup.Exists(fakePlayerAI.NearestActor))
                             thirdPersonCharacterControl.MoveVector = fakePlayerAI.AvoidanceDir;
-                        }
                         else
                             fakePlayerAI.ShouldUpdateReasoner = true;
                         break;

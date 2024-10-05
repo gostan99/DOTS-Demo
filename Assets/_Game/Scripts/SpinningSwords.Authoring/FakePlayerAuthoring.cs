@@ -115,11 +115,12 @@ namespace SpinningSwords.Authoring
                     // in order to specify the type of consideration to add, and we also specify the "ActionReference" that we
                     // want to add this consideration to. Finally, we store the resulting "ConsiderationReference" in our 
                     // agent component.
-                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestActorAvoidance, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestActorAvoidanceRef);
-                    ReasonerUtilities.AddConsideration(considerationSetComponent.SwordKineticEnergy, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.SwordKineticEnergyRef);
-                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestActor, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestActorRef);
+                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestAttackDistance, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestAttackDistanceRef);
                     ReasonerUtilities.AddConsideration(considerationSetComponent.RunSpeed, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.RunSpeedRef);
-                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestPickup, ref ai.CollectItemActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestPickupRef);
+                    ReasonerUtilities.AddConsideration(considerationSetComponent.WantAttack, ref ai.AttackActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.WantAttackRef);
+                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestAvoidDistance, ref ai.AvoidanceActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestAvoidDistanceRef);
+                    ReasonerUtilities.AddConsideration(considerationSetComponent.WantAvoid, ref ai.AvoidanceActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.WantAvoidRef);
+                    ReasonerUtilities.AddConsideration(considerationSetComponent.NearestPickupDistance, ref ai.CollectItemActionRef, true, ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer, out ai.NearestPickupDistanceRef);
                 }
                 // Once we're finished setting everything up, we end baking for the reasoner
                 ReasonerUtilities.EndBakeReasoner(this, reasoner);
