@@ -10,3 +10,4 @@ Controll: A, W, S, Space, mouse no move and look around
 ## Credits
 "Ghasklle" (https://skfb.ly/o9JGM) by Liron is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Glamrock Freddy FNAF Security Breach Minecraft" (https://skfb.ly/o898U) by ForaMon is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Minecraft Chicken" (https://skfb.ly/oG6HA) by utru is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
