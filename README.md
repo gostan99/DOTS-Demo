@@ -12,3 +12,4 @@ Controll: A, W, S, Space, mouse no move and look around
 "Glamrock Freddy FNAF Security Breach Minecraft" (https://skfb.ly/o898U) by ForaMon is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Minecraft Chicken" (https://skfb.ly/oG6HA) by utru is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "BaoChanBu Robot" (https://skfb.ly/ots8r) by channyspirit is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Sea serpent showcase" (https://skfb.ly/oHppr) by SoyAzor is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
